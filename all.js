@@ -32,13 +32,13 @@ let data = [
   ];
 const cardList = document.querySelector(".ticketCard-area");
 const ticketRegion = document.querySelector("#ticketRegion");
-const change = document.querySelector(".regionSearch");
+const regionSearch = document.querySelector(".regionSearch");
+const searchResultText =document.querySelector("#searchResult-text");
 
-
-console.log(change);
-let ticketCardHTML = '';
-data.forEach(function(item,index){
-    
+function renderData(data){
+  let ticketCardHTML = ''; //如果放在function外面，只要執行renderData()就會被重複渲染，"全部地區"會變成超多個重複的卡片資訊
+  data.forEach(function(item){
+   
     ticketCardHTML +=  `
     <li class="ticketCard">
     <div class="ticketCard-img">
@@ -69,34 +69,61 @@ data.forEach(function(item,index){
     </div>
   </li>
     `;
-
-    
-
 });
-
 cardList.innerHTML = ticketCardHTML;
+searchResultText.textContent = `本次搜尋共${data.length}筆資料`
+};
+function init(){
+  renderData(data)   
+};
+init();
 
 //change
-change.addEventListener("click",function(e){
-    console.log("55");
-    console.log(e)
+regionSearch.addEventListener("change",function(e){
+    let selectValue = e.target.value; //data.area
+    console.log(selectValue);
+    let filterArray =[];
+    if(selectValue == ""){
+      filterArray = data
+    }else{
+      filterArray =  data.filter(function(item){
+        return selectValue === item.area
+       //回傳符合上面這條件的新陣列(選取到的選項與每個data資料中的area屬性相同的)，
+         
+      });
+    };
+    renderData(filterArray);
+    
 });
 
+//新增套票功能
+const addTicketBtn = document.querySelector(".addTicket-btn");
+const addTicketName = document.querySelector("#ticketName");
+const addTicketImgUrl = document.querySelector("#ticketImgUrl");
+const addTicketRegion = document.querySelector("#ticketRegion");
+const addTicketPrice = document.querySelector("#ticketPrice");
+const addTicketNum = document.querySelector("#ticketNum");
+const addTicketRate = document.querySelector("#ticketRate");
+const addTicketDescription = document.querySelector("#ticketDescription");
 
-// ticketCardName.addEventListener("click",function(e){
-//     e.preventDefault();
-//     console.log("hi");
-//     e.target.textContent = data[0].name;
-//     console.log(e.target.textContent);
-// });
-// // 照片為何渲染不出來
-// ticketCardImg.addEventListener("click",function(e){
-//     console.log("hii");
-//     console.log(e.target);
-//     e.target.innerHTML =`
- 
-//         <img src="https://images.unsplash.com/photo-1522383225653-ed111181a951?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1655&q=80" alt="">
+addTicketBtn.addEventListener("click",function(e){
+  console.log("btn");
+
+  //組好物件資料、推進data中
+  let newTicketObj = {
+    "id": data.length-1,
+    "name": addTicketName.value,
+    "imgUrl": addTicketImgUrl.value,
+    "area": addTicketRegion.value,
+    "description": addTicketDescription.value,
+    "group": addTicketNum.value,
+    "price":addTicketPrice.value,
+    "rate": addTicketRate.value
+  };
+  console.log(newTicketObj);
+  data.push(newTicketObj);
+  init();
   
-//     `;
-    
-// });
+
+
+});

@@ -17,7 +17,9 @@ img {
 body {
   font-family: "Microsoft JhengHei";
 }
-
+ul,li{
+  list-style: none;
+}
 .addTicket-panel {
   -webkit-box-shadow: 0px 3px 6px #00000029;
           box-shadow: 0px 3px 6px #00000029;
