@@ -82,7 +82,7 @@ init();
 regionSearch.addEventListener("change",function(e){
     let selectValue = e.target.value; //data.area
     console.log(selectValue);
-    let filterArray =[];
+    let filterArray =[]; //建立一個新的陣列用來裝篩選後的資料，如果是選到全部，這個input裡的value是空的，所以先執行這功能；如果不是空字串代表有需要過濾的條件，將data使用filter過濾的語法，篩選出網頁切換選取到的值和每個data裡面的物件中，地區屬性相同的，組合成一個新陣列，然後回傳，最後將新的陣列渲染到網頁上
     if(selectValue == ""){
       filterArray = data
     }else{
