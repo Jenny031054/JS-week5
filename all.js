@@ -1,40 +1,70 @@
-let data = [
-    {
-      "id": 0,
-      "name": "肥宅心碎賞櫻3日",
-      "imgUrl": "https://images.unsplash.com/photo-1522383225653-ed111181a951?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1655&q=80",
-      "area": "高雄",
-      "description": "賞櫻花最佳去處。肥宅不得不去的超讚景點！",
-      "group": 87,
-      "price": 1400,
-      "rate": 10
-    },
-    {
-      "id": 1,
-      "name": "貓空纜車雙程票",
-      "imgUrl": "https://images.unsplash.com/photo-1501393152198-34b240415948?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80",
-      "area": "台北",
-      "description": "乘坐以透明強化玻璃為地板的「貓纜之眼」水晶車廂，享受騰雲駕霧遨遊天際之感",
-      "group": 99,
-      "price": 240,
-      "rate": 2
-    },
-    {
-      "id": 2,
-      "name": "台中谷關溫泉會1日",
-      "imgUrl": "https://images.unsplash.com/photo-1535530992830-e25d07cfa780?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80",
-      "area": "台中",
-      "description": "全館客房均提供谷關無色無味之優質碳酸原湯，並取用八仙山之山冷泉供蒞臨貴賓沐浴及飲水使用。",
-      "group": 20,
-      "price": 1765,
-      "rate": 7
-    }
-  ];
+// let data = [
+//     {
+//       "id": 0,
+//       "name": "肥宅心碎賞櫻3日",
+//       "imgUrl": "https://images.unsplash.com/photo-1522383225653-ed111181a951?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1655&q=80",
+//       "area": "高雄",
+//       "description": "賞櫻花最佳去處。肥宅不得不去的超讚景點！",
+//       "group": 87,
+//       "price": 1400,
+//       "rate": 10
+//     },
+//     {
+//       "id": 1,
+//       "name": "貓空纜車雙程票",
+//       "imgUrl": "https://images.unsplash.com/photo-1501393152198-34b240415948?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80",
+//       "area": "台北",
+//       "description": "乘坐以透明強化玻璃為地板的「貓纜之眼」水晶車廂，享受騰雲駕霧遨遊天際之感",
+//       "group": 99,
+//       "price": 240,
+//       "rate": 2
+//     },
+//     {
+//       "id": 2,
+//       "name": "台中谷關溫泉會1日",
+//       "imgUrl": "https://images.unsplash.com/photo-1535530992830-e25d07cfa780?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80",
+//       "area": "台中",
+//       "description": "全館客房均提供谷關無色無味之優質碳酸原湯，並取用八仙山之山冷泉供蒞臨貴賓沐浴及飲水使用。",
+//       "group": 20,
+//       "price": 1765,
+//       "rate": 7
+//     }
+//   ];
+
+console.log(axios);
+let data = [];
+// function getData(){
+//   axios.get("https://raw.githubusercontent.com/hexschool/js-training/main/travelApi.json")
+//   .then(function(response){
+//     data = response.data.data;
+//     console.log(data[0]);
+//     // alert("hello")
+
+//   })
+// };
+
+
+
 const cardList = document.querySelector(".ticketCard-area");
 const ticketRegion = document.querySelector("#ticketRegion");
 const regionSearch = document.querySelector(".regionSearch");
 const searchResultText =document.querySelector("#searchResult-text");
 
+
+//取得資料、之後進行渲染
+axios.get("https://raw.githubusercontent.com/hexschool/js-training/main/travelApi.json")
+.then(function(response){
+  data = response.data.data;
+  console.log(data);
+  // alert("hello")
+  renderData(data);
+})
+.catch(function(error){
+  console.log(error)
+}); 
+
+
+  // renderData(data)  
 function renderData(data){
   let ticketCardHTML = ''; //如果放在function外面，只要執行renderData()就會被重複渲染，"全部地區"會變成超多個重複的卡片資訊
   data.forEach(function(item){
@@ -71,12 +101,10 @@ function renderData(data){
     `;
 });
 cardList.innerHTML = ticketCardHTML;
-searchResultText.textContent = `本次搜尋共${data.length}筆資料`
+searchResultText.textContent = `本次搜尋共${data.length}筆資料`;
+
 };
-function init(){
-  renderData(data)   
-};
-init();
+
 
 //change
 regionSearch.addEventListener("change",function(e){
@@ -106,24 +134,28 @@ const addTicketNum = document.querySelector("#ticketNum");
 const addTicketRate = document.querySelector("#ticketRate");
 const addTicketDescription = document.querySelector("#ticketDescription");
 
+function addTicket (){
+//組好物件資料、推進data中
+let newTicketObj = {
+  "id": data.length-1,
+  "name": addTicketName.value,
+  "imgUrl": addTicketImgUrl.value,
+  "area": addTicketRegion.value,
+  "description": addTicketDescription.value,
+  "group": addTicketNum.value,
+  "price":addTicketPrice.value,
+  "rate": addTicketRate.value
+};
+
+console.log(newTicketObj);
+data.push(newTicketObj);
+}
+
 addTicketBtn.addEventListener("click",function(e){
-  console.log("btn");
-
-  //組好物件資料、推進data中
-  let newTicketObj = {
-    "id": data.length-1,
-    "name": addTicketName.value,
-    "imgUrl": addTicketImgUrl.value,
-    "area": addTicketRegion.value,
-    "description": addTicketDescription.value,
-    "group": addTicketNum.value,
-    "price":addTicketPrice.value,
-    "rate": addTicketRate.value
-  };
-  console.log(newTicketObj);
-  data.push(newTicketObj);
-  init();
   
+  addTicket ();
+  renderData(data);
+  console.log(data);
 
-
+  
 });
